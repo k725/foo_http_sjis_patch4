@@ -4,8 +4,8 @@
 
 DECLARE_COMPONENT_VERSION(
 	"http SJIS patch",
-	"1.0.3",
-	""
+	"1.0.4",
+	"http SJIS patch"
 );
 
 static int (WSAAPI *ORIG_closesocket)(SOCKET) = NULL;
