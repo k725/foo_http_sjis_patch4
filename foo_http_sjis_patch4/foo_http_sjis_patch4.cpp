@@ -4,9 +4,11 @@
 
 DECLARE_COMPONENT_VERSION(
 	"http SJIS patch",
-	"1.0.4",
+	"1.0.5",
 	"http SJIS patch"
 );
+
+VALIDATE_COMPONENT_FILENAME("foo_http_sjis_patch4.dll");
 
 static int (WSAAPI *ORIG_closesocket)(SOCKET) = NULL;
 static int (WSAAPI *ORIG_recv)(SOCKET,char*,int,int) = NULL;
@@ -205,11 +207,11 @@ BOOL startup(){
 	return TRUE;
 }
 
-extern "C" BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID lp){
-	if(reason==DLL_PROCESS_ATTACH){
-		DisableThreadLibraryCalls(module);
-		return startup();
-	}
-	return TRUE;
-}
+class initquit_handler : public initquit
+{
+	virtual void on_init() { startup(); }
+	virtual void on_quit() {}
+};
+
+static initquit_factory_t< initquit_handler > foo_initquit;
 //EOF
